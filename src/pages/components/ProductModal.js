@@ -72,6 +72,9 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
         api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/product/${tempProduct.id}`
         method = 'put'
       }
+
+      console.log('submit tempData',tempData)
+
       const res = await axios[method](api, {
         data: tempData
       })

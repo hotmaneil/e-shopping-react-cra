@@ -3,15 +3,25 @@ import Login from './pages/Login'
 import Dashboard from './pages/admin/Dashboard'
 import AdminProducts from './pages/admin/AdminProducts'
 import AdminCoupons from './pages/admin/AdminCoupons'
+import AdminOrders from './pages/admin/AdminOrders'
+import FrontLayout from './pages/front/FrontLayout'
+import FrontLayout2 from './pages/front/FrontLayout2'
+import Home from './pages/front/Home'
+import Products from './pages/front/Products'
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Login />}></Route>
+        <Route path="/" element={<FrontLayout2 />}>
+          <Route path="" element={<Home />}></Route>
+          <Route path="products" element={<Products />}></Route>
+        </Route>
+        <Route path="/login" element={<Login />}></Route>
         <Route path="/admin" element={<Dashboard />}>
           <Route path="products" element={<AdminProducts />}></Route>
           <Route path="coupons" element={<AdminCoupons />}></Route>
+          <Route path="orders" element={<AdminOrders />}></Route>
         </Route>
       </Routes>
     </div>
