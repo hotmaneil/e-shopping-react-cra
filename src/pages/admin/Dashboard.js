@@ -1,9 +1,17 @@
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
-import { useEffect } from 'react'
+import { useEffect, useReducer } from 'react'
+import Message from '../components/Message'
+import {
+  MessageContext,
+  messageReducer,
+  initState
+} from '../../store/messageStore'
 
 function Dashboard() {
   const navigate = useNavigate()
+  const reducer = useReducer(messageReducer, initState)
+
   const logout = () => {
     document.cookie = 'hexToken=;'
     navigate('/login')
@@ -31,7 +39,8 @@ function Dashboard() {
   }, [navigate, token])
 
   return (
-    <>
+    <MessageContext.Provider value={reducer}>
+      <Message></Message>
       <nav className="navbar navbar-expand-lg bg-dark">
         <div className="container-fluid">
           <p className="text-white mb-0">HEX EATS 後台管理系統</p>
@@ -67,27 +76,27 @@ function Dashboard() {
       <div className="d-flex" style={{ minHeight: 'calc(100vh - 56px)' }}>
         <div className="bg-light" style={{ width: '200px' }}>
           <ul className="list-group list-group-flush">
-            <a
+            <Link
               className="list-group-item list-group-item-action py-3"
               to="/admin/products"
             >
               <i className="bi bi-cup-fill me-2" />
               產品列表
-            </a>
-            <a
+            </Link>
+            <Link
               className="list-group-item list-group-item-action py-3"
               to="/admin/coupons"
             >
               <i className="bi bi-ticket-perforated-fill me-2" />
               優惠卷列表
-            </a>
-            <a
+            </Link>
+            <Link
               className="list-group-item list-group-item-action py-3"
               to="/admin/orders"
             >
               <i className="bi bi-receipt me-2" />
               訂單列表
-            </a>
+            </Link>
           </ul>
         </div>
         <div className="w-100">
@@ -96,7 +105,7 @@ function Dashboard() {
           {/* Products end */}
         </div>
       </div>
-    </>
+    </MessageContext.Provider>
   )
 }
 

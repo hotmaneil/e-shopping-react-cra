@@ -1,22 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-import ProductModal from '../components/ProductModal'
+import CouponModal from '../components/CouponModal'
 import DeleteModal from '../components/DeleteModal'
 import Pagination from '../components/Pagination'
 import { Modal } from 'bootstrap'
 
-function AdminProducts() {
-  const [products, setProducts] = useState([])
+function AdminCoupons() {
+  const [coupons, setCoupons] = useState([])
   const [pagination, setPagination] = useState({})
 
   // type:決定modal展開的用途
   const [type, setType] = useState('create')
-  const [tempProduct, setTempProduct] = useState({})
+  const [tempCoupon, setTempCoupon] = useState({})
 
-  const productModal = useRef(null)
+  const couponModal = useRef(null)
   const deleteModal = useRef(null)
   useEffect(() => {
-    productModal.current = new Modal('#productModal', {
+    couponModal.current = new Modal('#couponModal', {
       backdrop: 'static'
     })
 
@@ -24,47 +24,47 @@ function AdminProducts() {
       backdrop: 'static'
     })
 
-    getProducts()
+    getCoupons()
   }, [])
 
   /**
-   * 取得產品列表
+   * 取得優惠券列表
    */
-  const getProducts = async (page = 1) => {
-    const productRes = await axios.get(
-      `/v2/api/${process.env.REACT_APP_API_PATH}/admin/products?page=${page}`
+  const getCoupons = async (page = 1) => {
+    const couponRes = await axios.get(
+      `/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupons?page=${page}`
     )
-    console.log('productRes', productRes)
-    setProducts(productRes.data.products)
-    setPagination(productRes.data.pagination)
+    console.log('couponRes', couponRes)
+    setCoupons(couponRes.data.coupons)
+    setPagination(couponRes.data.pagination)
   }
 
   /**
-   * 開啟產品Modal
+   * 開啟優惠券Modal
    * @param {*} type
-   * @param {*} product
+   * @param {*} Coupon
    */
-  const openProductModal = (type, product) => {
+  const openCouponModal = (type, coupon) => {
     setType(type)
-    setTempProduct(product)
-    productModal.current.show()
+    setTempCoupon(coupon)
+    couponModal.current.show()
   }
 
   /**
-   * 關閉產品Modal
+   * 關閉優惠券Modal
    */
-  const closeProductModal = () => {
-    productModal.current.hide()
+  const closeModal = () => {
+    couponModal.current.hide()
   }
 
   /**
    * 開啟刪除Modal
    * @param {*} type
-   * @param {*} product
+   * @param {*} coupon
    */
-  const openDeleteModal = (product) => {
+  const openDeleteModal = (coupon) => {
     setType(type)
-    setTempProduct(product)
+    setTempCoupon(coupon)
     deleteModal.current.show()
   }
 
@@ -76,73 +76,75 @@ function AdminProducts() {
   }
 
   /**
-   * 刪除產品
+   * 刪除優惠券
    * @param {*} id
    */
-  const deleteProduct = async (id) => {
+  const deleteCoupon = async (id) => {
     try {
       const res = await axios.delete(
-        `/v2/api/${process.env.REACT_APP_API_PATH}/admin/product/${id}`
+        `/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon/${id}`
       )
       if (res.data.success) {
-        getProducts()
+        getCoupons()
         deleteModal.current.hide()
       }
       console.log('res', res)
     } catch (error) {
-      console.log('deleteProduct error', error)
+      console.log('deleteCoupon error', error)
     }
   }
 
   return (
     <div className="p-3">
-      <ProductModal
-        closeProductModal={closeProductModal}
-        getProducts={getProducts}
-        tempProduct={tempProduct}
+      <CouponModal
+        closeModal={closeModal}
+        getCoupons={getCoupons}
+        tempCoupon={tempCoupon}
         type={type}
       />
       <DeleteModal
         close={closeDeleteModal}
-        text={tempProduct.title}
-        handleDelete={deleteProduct}
-        id={tempProduct.id}
+        text={tempCoupon.title}
+        handleDelete={deleteCoupon}
+        id={tempCoupon.id}
       />
-      <h3>產品列表</h3>
+      <h3>優惠券列表</h3>
       <hr />
       <div className="text-end">
         <button
           type="button"
           className="btn btn-primary btn-sm"
-          onClick={() => openProductModal('create', {})}
+          onClick={() => openCouponModal('create', {})}
         >
-          建立新商品
+          建立新優惠券
         </button>
       </div>
 
       <table className="table">
         <thead>
           <tr>
-            <th scope="col">分類</th>
-            <th scope="col">名稱</th>
-            <th scope="col">售價</th>
+            <th scope="col">標題</th>
+            <th scope="col">折扣</th>
+            <th scope="col">到期日</th>
+            <th scope="col">優惠碼</th>
             <th scope="col">啟用狀態</th>
             <th scope="col">編輯</th>
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => {
+          {coupons.map((product) => {
             return (
               <tr key={product.id}>
-                <td>{product.category}</td>
                 <td>{product.title}</td>
-                <td>{product.price}</td>
+                <td>{product.percent}</td>
+                <td>{new Date(product.due_date).toDateString()}</td>
+                <td>{product.code}</td>
                 <td>{product.is_enabled ? '啟用' : '未啟用'}</td>
                 <td>
                   <button
                     type="button"
                     className="btn btn-primary btn-sm"
-                    onClick={() => openProductModal('edit', product)}
+                    onClick={() => openCouponModal('edit', product)}
                   >
                     編輯
                   </button>
@@ -159,9 +161,9 @@ function AdminProducts() {
           })}
         </tbody>
       </table>
-      <Pagination pagination={pagination} changePage={getProducts} />
+      <Pagination pagination={pagination} changePage={getCoupons} />
     </div>
   )
 }
 
-export default AdminProducts
+export default AdminCoupons
