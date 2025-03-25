@@ -8,6 +8,7 @@ import FrontLayout from './pages/front/FrontLayout'
 import FrontLayout2 from './pages/front/FrontLayout2'
 import Home from './pages/front/Home'
 import Products from './pages/front/Products'
+import ProductDetail from './pages/front/ProductDetail'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<FrontLayout2 />}>
           <Route path="" element={<Home />}></Route>
           <Route path="products" element={<Products />}></Route>
+          <Route path="product/:id" element={<ProductDetail />}></Route>
         </Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/admin" element={<Dashboard />}>

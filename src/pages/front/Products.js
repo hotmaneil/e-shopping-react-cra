@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Pagination from '../components/Pagination'
 
 function Products() {
@@ -40,7 +40,7 @@ function Products() {
 
                   <div className="card-body p-0">
                     <h4 className="mb-0 mt-2">
-                      <a href="#">{product.title}</a>
+                      <Link to={`/product/${product.id}`}>{product.title}</Link>
                     </h4>
                     <p className="text-muted mt-3">NT$ {product.price}</p>
                   </div>
