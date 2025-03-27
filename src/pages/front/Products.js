@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import Pagination from '../components/Pagination'
+import Pagination from '../../components/Pagination'
 
 function Products() {
   const [products, setProducts] = useState([])

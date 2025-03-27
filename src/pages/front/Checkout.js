@@ -1,6 +1,6 @@
 import { Link, useOutletContext, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { CustomInput } from '../components/FormElements'
+import { CustomInput } from '../../components/FormElements'
 import axios from 'axios'
 
 function Checkout() {

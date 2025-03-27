@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 // import OrderModal from '../../components/OrderModal'
-import OrderModal from '../components/OrderModal'
+import OrderModal from '../../components/OrderModal'
 // import Pagination from '../../components/Pagination'
-import Pagination from '../components/Pagination'
+import Pagination from '../../components/Pagination'
 import { Modal } from 'bootstrap'
 
 function AdminOrders() {

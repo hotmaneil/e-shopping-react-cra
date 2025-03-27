@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-import ProductModal from '../components/ProductModal'
-import DeleteModal from '../components/DeleteModal'
-import Pagination from '../components/Pagination'
+import ProductModal from '../../components/ProductModal'
+import DeleteModal from '../../components/DeleteModal'
+import Pagination from '../../components/Pagination'
 import { Modal } from 'bootstrap'
 
 function AdminProducts() {

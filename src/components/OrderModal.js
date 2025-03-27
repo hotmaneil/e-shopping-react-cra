@@ -5,7 +5,7 @@ import {
   MessageContext,
   handleSuccessMessage,
   handleErrorMessage
-} from '../../store/messageStore'
+} from '../store/messageStore'
 
 function OrderModal({ closeProductModal, getOrders, tempOrder }) {
   const [isLoading, setIsLoading] = useState(false)
