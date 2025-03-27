@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { useOutletContext, useParams } from 'react-router-dom'
 
 function ProductDetail() {
   const [product, setProduct] = useState([])
   const [carQuantity, setCarQuantity] = useState(1)
   const { id } = useParams()
   const [isLoading, setIsLoading] = useState(false)
+  const { getCart } = useOutletContext()
+
   console.log('id', id)
 
   /**
@@ -20,6 +22,9 @@ function ProductDetail() {
     setProduct(productRes.data.product)
   }
 
+  /**
+   *加入購物車
+   */
   const addToCart = async () => {
     const data = {
       data: {
@@ -34,6 +39,7 @@ function ProductDetail() {
         data
       )
       console.log('res', res)
+      getCart()
       setIsLoading(false)
     } catch (error) {
       console.log('error', error)

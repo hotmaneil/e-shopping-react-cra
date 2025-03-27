@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 
-function Navbar() {
+function Navbar({ cartData }) {
   return (
     <div className="bg-white sticky-top">
       <div className="container">
@@ -46,6 +46,9 @@ function Navbar() {
           <div className="d-flex">
             <NavLink to="/cart" className="nav-link">
               <i className="bi bi-cart4"></i>
+              <span class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger">
+                {cartData?.carts?.length}
+              </span>
             </NavLink>
           </div>
         </nav>

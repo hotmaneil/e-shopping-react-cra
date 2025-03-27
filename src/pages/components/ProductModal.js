@@ -73,7 +73,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
         method = 'put'
       }
 
-      console.log('submit tempData',tempData)
+      console.log('submit tempData', tempData)
 
       const res = await axios[method](api, {
         data: tempData
@@ -87,6 +87,36 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
       console.log(error)
       handleErrorMessage(dispatch, error)
       // handleErrorMessage(dispatch, error)
+    }
+  }
+
+  const uploadFile = async (file) => {
+    console.log(file)
+
+    if (!file) {
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('file-to-upload', file)
+
+    try {
+      const res = await axios.post(
+        `/v2/api/${process.env.REACT_APP_API_PATH}/admin/upload`,
+        formData
+      )
+      console.log('file-to-upload res', res)
+
+      // setTempData({
+      //   imageUrl: res.data.imageUrl
+      // })
+
+      tempProduct.imageUrl = res.data.imageUrl
+      setTempData(tempProduct)
+
+      console.log('tempData', tempData)
+    } catch (error) {
+      console.log('file-to-upload error', error)
     }
   }
 
@@ -133,6 +163,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                       type="file"
                       id="customFile"
                       className="form-control"
+                      onChange={(e) => uploadFile(e.target.files[0])}
                     />
                   </label>
                 </div>
